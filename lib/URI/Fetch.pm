@@ -1,7 +1,7 @@
-# $Id: Fetch.pm 1952 2006-07-25 05:41:24Z btrott $
-
 package URI::Fetch;
 use strict;
+use 5.008_001;
+
 use base qw( Class::ErrorHandler );
 
 use LWP::UserAgent;
@@ -9,7 +9,7 @@ use Carp qw( croak );
 use URI;
 use URI::Fetch::Response;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 our $HAS_ZLIB;
 BEGIN {
@@ -67,9 +67,12 @@ sub fetch {
         return undef if $p_no_net == 1;
     }
 
-    $ua ||= LWP::UserAgent->new;
-    $ua->agent(join '/', $class, $class->VERSION)
-        if $ua->agent =~ /^libwww-perl/;
+    $ua ||= do {
+        my $ua = LWP::UserAgent->new;
+        $ua->agent(join '/', $class, $class->VERSION);
+        $ua->env_proxy;
+        $ua;
+    };
 
     my $req = HTTP::Request->new(GET => $uri);
     if ($HAS_ZLIB) {
@@ -158,7 +161,7 @@ URI::Fetch - Smart URI fetching/caching
         or die URI::Fetch->errstr;
 
     ## Fetch using specified ETag and Last-Modified headers.
-    my $res = URI::Fetch->fetch('http://example.com/atom.xml',
+    $res = URI::Fetch->fetch('http://example.com/atom.xml',
             ETag => '123-ABC',
             LastModified => time - 3600,
     )
@@ -166,7 +169,7 @@ URI::Fetch - Smart URI fetching/caching
 
     ## Fetch using an on-disk cache that URI::Fetch manages for you.
     my $cache = Cache::File->new( cache_root => '/tmp/cache' );
-    my $res = URI::Fetch->fetch('http://example.com/atom.xml',
+    $res = URI::Fetch->fetch('http://example.com/atom.xml',
             Cache => $cache
     )
         or die URI::Fetch->errstr;
@@ -224,6 +227,8 @@ fetched.
 
 Signals that a page/feed is gone and will never be coming back,
 so you should stop trying to fetch it.
+
+=back
 
 =back
 
