@@ -1,32 +1,31 @@
 ---
 abstract: 'Smart URI fetching/caching'
 author:
-  - Benjamin
+  - 'Benjamin Trott <ben+cpan@stupidfool.org>'
 build_requires:
-  ExtUtils::MakeMaker: 6.42
+  Data::Dumper: '0'
+  Test::More: '0'
 configure_requires:
-  ExtUtils::MakeMaker: 6.42
-distribution_type: module
-generated_by: 'Module::Install version 1.00'
+  ExtUtils::MakeMaker: '6.30'
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 5.019, CPAN::Meta::Converter version 2.141170'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
-  version: 1.4
+  version: '1.4'
 name: URI-Fetch
-no_index:
-  directory:
-    - inc
-    - t
-    - xt
 requires:
-  Class::ErrorHandler: 0
-  Compress::Zlib: 0
-  Filter::Util::Call: 0
-  LWP: 0
-  Storable: 0
-  URI: 0
-  perl: 5.8.1
+  Carp: '0'
+  Class::ErrorHandler: '0'
+  LWP::UserAgent: '0'
+  Storable: '0'
+  URI: '0'
+  base: '0'
+  constant: '0'
+  perl: 5.008_001
+  strict: '0'
+  warnings: '0'
 resources:
-  license: http://dev.perl.org/licenses/
-  repository: git://github.com/btrott/URI-Fetch.git
-version: 0.09
+  homepage: https://github.com/neilbowers/URI-Fetch
+  repository: https://github.com/neilbowers/URI-Fetch.git
+version: 0.09_01

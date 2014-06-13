@@ -1,6 +1,8 @@
 package URI::Fetch;
-use strict;
+$URI::Fetch::VERSION = '0.09_01';
 use 5.008_001;
+use strict;
+use warnings;
 
 use base qw( Class::ErrorHandler );
 
@@ -8,8 +10,6 @@ use LWP::UserAgent;
 use Carp qw( croak );
 use URI;
 use URI::Fetch::Response;
-
-our $VERSION = '0.09';
 
 our $HAS_ZLIB;
 BEGIN {
@@ -134,7 +134,7 @@ sub fetch {
     if ($cache &&
         ($p_cache_grep ? $p_cache_grep->($fetch) : 1)) {
 
-        $cache->set($fetch->uri, $freeze->({
+        $cache->set($uri, $freeze->({
             ETag         => $fetch->etag,
             LastModified => $fetch->last_modified,
             Content      => $fetch->content,
@@ -159,6 +159,7 @@ URI::Fetch - Smart URI fetching/caching
     ## Simple fetch.
     my $res = URI::Fetch->fetch('http://example.com/atom.xml')
         or die URI::Fetch->errstr;
+    do_something($res->content) if $res->is_success;
 
     ## Fetch using specified ETag and Last-Modified headers.
     $res = URI::Fetch->fetch('http://example.com/atom.xml',
@@ -231,6 +232,16 @@ so you should stop trying to fetch it.
 =back
 
 =back
+
+=head2 Change from 0.09
+
+If you make a request using a cache and get back a 304 response code
+(Not Modified), then if the content was returned from the cache,
+then C<is_success()> will return true, and C<$response-E<gt>content>
+will contain the cached content.
+
+I think this is the right behaviour, given the philosophy of C<URI::Fetch>,
+but please let me (NEILB) know if you disagree.
 
 =head1 USAGE
 
