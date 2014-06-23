@@ -1,5 +1,5 @@
 package URI::Fetch;
-$URI::Fetch::VERSION = '0.09_01';
+$URI::Fetch::VERSION = '0.10';
 use 5.008_001;
 use strict;
 use warnings;
@@ -363,6 +363,10 @@ codes listed above. The HTTP status message can then be retreived
 using the C<errstr> method on the class.
 
 =back
+
+=head1 REPOSITORY
+
+L<https://github.com/neilbowers/URI-Fetch>
 
 =head1 LICENSE
 

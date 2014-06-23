@@ -28,4 +28,4 @@ requires:
 resources:
   homepage: https://github.com/neilbowers/URI-Fetch
   repository: https://github.com/neilbowers/URI-Fetch.git
-version: 0.09_01
+version: '0.10'
